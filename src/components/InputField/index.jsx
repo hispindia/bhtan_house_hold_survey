@@ -22,6 +22,7 @@ const InputField = (props) => {
     inputRef,
   } = props;
 
+
   const generateField = () => {
     if (valueSet) {
       return (
@@ -86,7 +87,7 @@ const InputField = (props) => {
       case "AGE":
         return (
           <DatePicker
-            value={value}
+            value={value ? moment(value) : ""}
             onChange={(momentObject) => {
               onChange(momentObject);
             }}

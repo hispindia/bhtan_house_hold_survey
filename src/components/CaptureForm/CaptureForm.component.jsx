@@ -28,6 +28,7 @@ function CaptureForm(props) {
     handleAddNewRow,
     editRowCallback = null,
     locale,
+    allowFormEditable,
     ...other
   } = props;
   const { programMetadataMember } = useSelector((state) => state.metadata);
@@ -43,23 +44,32 @@ function CaptureForm(props) {
     validation,
     onSubmit,
     clear,
-  } = useForm(_.cloneDeep(metadata), data, {
+  } = useForm(_.cloneDeep(metadata), data, allowFormEditable, {
     compulsory: t("thisFieldIsRequired"),
   });
+
+
+  console.log('formMetadata :>> ', formMetadata);
 
   useEffect(() => {
     initFromData(data);
 
-    let cloneMetadata = _.cloneDeep(metadata).reduce((obj, md) => {
-      obj[md.code] = md;
-      return obj;
-    }, {});
+    // let cloneMetadata = _.cloneDeep(metadata).reduce((obj, md) => {
+    // let cloneMetadata = _.cloneDeep(formMetadata).reduce((obj, md) => {
+    //   obj[md.code] = md;
 
-    if (data) {
-      editRowCallback(cloneMetadata, null, data, null, null);
-    }
-    changeMetadata([...Object.values(cloneMetadata)]);
+    //   return obj;
+    // }, {});
+
+    // if (data) {
+    //   editRowCallback(cloneMetadata, null, data, null, null);
+    // }
+    // changeMetadata([...Object.values(cloneMetadata)]);
+
+      editRowCallback([], null, data, null, null);
+
   }, [data.id]);
+  // }, []);
 
   useEffect(() => {
     return () => {
@@ -213,7 +223,6 @@ function CaptureForm(props) {
     let status = onSubmit(null);
     console.trace(status);
 
-    console.log('status:>>', status)
     if (status) {
       switch (action) {
         case "add":

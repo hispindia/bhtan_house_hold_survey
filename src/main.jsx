@@ -40,6 +40,10 @@ i18n.use(initReactI18next).init({
   },
 });
 
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+console.log('Base URL:', baseUrl);
+
+
 // export const store = configureStore();
 
 ReactDOM.createRoot(document.getElementById("root")).render(

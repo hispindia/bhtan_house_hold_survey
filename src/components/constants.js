@@ -189,7 +189,6 @@ const FAMILY_MEMBER_VALUE = {
   EX_COUNTRY: 'Ex country',
 }
 
-// const HAS_INITIAN_NOVALUE = ['mt37cOH28F9', 'uQg4s7Jd8WW', 'UjLxTtDk9qc']
 const HAS_INITIAN_NOVALUE = ['uQg4s7Jd8WW', 'mt37cOH28F9']
 
 const MIN_MAX_TEXT = {
@@ -206,10 +205,7 @@ const MIN_MAX_TEXT = {
     max: 300,
   },
 }
-// const MIN_MAX_TEXT = {
-//   ele: ['CMyXmIIL2Pg', 'RDXCYFo4Uv8', 'kzp9TltHi2M'],
-//   msg: 'Value range: Minimum 30 and maximum 150!!'
-// }
+
 
 export {
   CODE_VARIANTS,

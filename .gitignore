@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+.env.template
+
 # log
 debug*
 debug_*

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Card, Modal } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useDispatch, useSelector } from "react-redux";
-import { defaultProgramTrackedEntityAttributeDisable, FORM_ACTION_TYPES, HAS_INITIAN_NOVALUE } from "../constants";
+import { defaultProgramTrackedEntityAttributeDisable, FORM_ACTION_TYPES, HAS_INITIAN_NOVALUE, TYPE_OF_ACTION } from "../constants";
 
 // Icon
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -20,6 +20,8 @@ import CaptureForm from "../CaptureForm";
 import "../CustomStyles/css/bootstrap.min.css";
 import "./CascadeTable.styles.css";
 import { transformData, transformMetadataToColumns } from "./utils";
+import { CloseOutlined } from "@ant-design/icons";
+import { Switch, Tooltip } from "antd";
 
 const DeleteConfirmationButton = withDeleteConfirmation(Button);
 
@@ -64,6 +66,7 @@ const CascadeTable = (props) => {
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
 
   const [formStatus, setFormStatus] = useState(FORM_ACTION_TYPES.NONE);
+  const [editable, setEditable] = useState(false)
 
   const rowEvents = {
     onClick: (e, row, rowIndex) => {
@@ -112,6 +115,18 @@ const CascadeTable = (props) => {
     setSelectedData({ id: generateUid(), isNew: true, "hDE1WNqTTwF": profile.attributes["b4UUhQPwlRH"] });
     // setMetadata(JSON.parse(JSON.stringify(originMetadata)));
     setSelectedRowIndex(null);
+
+    // set intial conditon for new form
+    // if (metadata.length > 0) {
+    //   const updatedMeta = metadata.map((meta) => {
+    //     return {
+    //       ...meta,
+    //       disabled: false,
+    //     }
+    //   });
+
+      // setMetadata([...updatedMeta]);
+    // }
   };
 
   const handleAddNewRow = (e, row, continueAdd) => {
@@ -152,6 +167,23 @@ const CascadeTable = (props) => {
     setFormStatus(FORM_ACTION_TYPES.EDIT);
     setSelectedData(row);
     setSelectedRowIndex(rowIndex);
+
+    // if (metadata) {
+    //   metadata.forEach((meta) => meta.disabled = true)
+    //   setMetadata([...metadata]);
+    // }
+
+    // set form selected row conditon for new form
+    // if (metadata.length > 0) {
+    //   const updatedMeta = metadata.map((meta) => {
+    //     return {
+    //       ...meta,
+    //       disabled: true,
+    //     }
+    //   });
+
+    //   setMetadata([...updatedMeta]);
+    // }
   };
 
   const handleDeleteRow = (e, row) => {
@@ -339,6 +371,15 @@ const CascadeTable = (props) => {
     },
   ];
 
+  const handleCancelForm = () => {
+    setEditable(false)
+    setFormStatus(FORM_ACTION_TYPES.NONE);
+  };
+
+
+  const handleAllowEditable = (eValue) => {
+    setEditable(eValue)   
+  }
   return (
     <div className="bootstrap-iso">
       <div className="container-fluid">
@@ -355,7 +396,18 @@ const CascadeTable = (props) => {
             <Modal.Body>
               <Card>
                 <Card.Body>
-                  <Card.Title>{t("familyMemberDetails")}</Card.Title>
+                  <Card.Title className="d-flex justify-content-between">
+                    {t("familyMemberDetails")}
+                    <div className="gap-5 text-right">
+                      {formStatus == FORM_ACTION_TYPES.EDIT ?
+                        <Switch checked={editable} onChange={() => setEditable(!editable)} checkedChildren="Editable" unCheckedChildren="Enable For edit" />
+                        : ''}
+                      <Button type="text" className="btn btn-light" onClick={handleCancelForm}>
+                        <CloseOutlined />
+                      </Button>
+                    </div>
+
+                  </Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
                     {formStatus !== FORM_ACTION_TYPES.ADD_NEW &&
                       "No." + (selectedRowIndex + 1)}
@@ -370,6 +422,7 @@ const CascadeTable = (props) => {
                     handleEditRow={handleEditRow}
                     handleAddNewRow={handleAddNewRow}
                     editRowCallback={editRowCallback}
+                    allowFormEditable={editable}
                     maxDate={new Date()}
                     minDate={new Date(`1900-12-31`)}
                   />

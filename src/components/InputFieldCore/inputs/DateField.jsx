@@ -27,7 +27,7 @@ const DateField = (
   props
 ) => {
   const { t } = useTranslation();
-  const { disabled = false, ...other } = props;
+  const { disabled , ...other } = props;
   let fieldValue = value;
   // console.log('fieldValue :>> ', fieldValue);
 
@@ -61,7 +61,7 @@ const DateField = (
           views: [periodType],
         })}
         variant={variant}
-        disabled={disabled}
+        disabled={disabled|| false}
         value={value ? moment(fieldValue, switchFormatMoment(periodType)) : null}
         defaultValue=""
         onChange={(date) => {

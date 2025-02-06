@@ -521,8 +521,8 @@ const FamilyMemberForm = ({
         if ((userSex == TYPE_OF_ACTION.FEMALE) && deadAge) {
           metadata[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.HHM_1_42_DAYS_OF_PREGNANCY].hidden = true
         }
-        if (deadAge > mermberAge) {
-          data[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.HHM2_2_AGE_OF_DEATH] = (deadAge - mermberAge)
+        if (mermberAge > deadAge) {
+          data[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.HHM2_2_AGE_OF_DEATH] = (mermberAge - deadAge)
         } else {
           delete data[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.HHM2_2_AGE_OF_DEATH]
         }
@@ -570,9 +570,6 @@ const FamilyMemberForm = ({
           WAISE_HIP_CIRCUMFERENCE.forEach(hhm2 => metadata[hhm2].hidden = false)
 
         }
-
-
-
 
       default:
         console.log('default found')

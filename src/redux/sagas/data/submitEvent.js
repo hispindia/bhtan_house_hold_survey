@@ -253,6 +253,7 @@ function* handleCloneEvent({ year }) {
         );
       }
       console.log({ memberTEIsEvents });
+
       if (memberTEIsEvents) {
         const newFamilyEvent = newFamilyEvents[0];
 
@@ -262,9 +263,10 @@ function* handleCloneEvent({ year }) {
 
         let updatedMemberTeis = [];
         for (let cas of cascadeDataValue) {
-          let aTEI = memberTEIsWithEvents.find(
-            (e) => e.trackedEntity == cas.id
-          );
+          let aTEI = memberTEIsWithEvents.find((e) => e.trackedEntity == cas.id);
+
+          // action not allow for previous year, only next year
+          if (moment(aTEI.enrollments[0].occurredAt).format('YYYY') > moment(newFamilyEvent.occurredAt).format('YYYY')) return;
 
           let newEvent = {
             event: generateUid(),
@@ -300,6 +302,8 @@ function* handleCloneEvent({ year }) {
         console.log("handleCloneEvent", { newMembersTEIPayload });
 
         yield call(pushTEIs, newMembersTEIPayload);
+
+
       }
     }
   } catch (e) {

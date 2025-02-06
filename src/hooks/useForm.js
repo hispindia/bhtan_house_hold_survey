@@ -1,11 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import _ from 'lodash';
-import { calculateAge } from '@/utils/event';
-import { FAMILY_MEMBER_METADATA_CUSTOMUPDATE, FAMILY_MEMBER_VALUE, MIN_MAX_TEXT, MOBILE_NUM_REGEX, TYPE_OF_ACTION } from '@/components/constants';
-import { changeMember } from '@/redux/actions/data/tei';
-import { useDispatch } from 'react-redux';
+import { defaultProgramTrackedEntityAttributeDisable, FAMILY_MEMBER_METADATA_CUSTOMUPDATE, FAMILY_MEMBER_VALUE, MIN_MAX_TEXT, MOBILE_NUM_REGEX, TYPE_OF_ACTION } from '@/components/constants';
 
-const useForm = (metadata, data, uiLocale) => {
+const useForm = (metadata, data, allowFormEditable, uiLocale) => {
     const [formMetadata, setMetadata] = useState(metadata);
     const [formData, setFormData] = useState(data);
     const [warningLocale, setWarningLocale] = useState(uiLocale);
@@ -13,7 +10,20 @@ const useForm = (metadata, data, uiLocale) => {
 
     const validationTypes = ['compulsory'];
     const prevData = useRef(data);
-    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (formMetadata.length > 0) {
+            const updatedMeta = formMetadata.map((meta) => {
+                return {
+                    ...meta,
+                    disabled: data['isNew'] ? defaultProgramTrackedEntityAttributeDisable.includes(meta.id) : defaultProgramTrackedEntityAttributeDisable.includes(meta.id) ? true : !allowFormEditable
+                }
+            });
+            setMetadata([...updatedMeta]);
+            // console.log('allowFormEditable useEffect called!', allowFormEditable, updatedMeta)
+        }
+
+    }, [allowFormEditable])
 
     const validationCheck = (type, value) => {
         console.log('validationCheck called')
@@ -240,6 +250,7 @@ const useForm = (metadata, data, uiLocale) => {
     };
 
     const changeMetadata = (metadata) => {
+        console.log('changeMetadata :>> ', metadata);
         setMetadata(metadata);
         onSubmit();
     };
@@ -309,7 +320,6 @@ const useForm = (metadata, data, uiLocale) => {
         validation,
         onSubmit,
         clear,
-        // validateFamilyMemberForm,
     };
 };
 export default useForm;
