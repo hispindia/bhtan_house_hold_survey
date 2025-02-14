@@ -37,6 +37,8 @@ const SideBar = () => {
   const handleAddSelectedYear = (year) => {
     let existedYear = currentEvents.map((e) => moment(e.occurredAt).year());
     console.log({ existedYear });
+    if (year < existedYear[0]) return childRef.current.close();
+
     if (!existedYear.includes(year)) {
       setWarningText(null);
       dispatch(cloneFamily(year));

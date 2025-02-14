@@ -265,8 +265,8 @@ function* handleCloneEvent({ year }) {
         for (let cas of cascadeDataValue) {
           let aTEI = memberTEIsWithEvents.find((e) => e.trackedEntity == cas.id);
 
-          // action not allow for previous year, only next year
-          if (moment(aTEI.enrollments[0].occurredAt).format('YYYY') > moment(newFamilyEvent.occurredAt).format('YYYY')) return;
+          // action not allow for previous year, only next year dont use
+          // if (moment(aTEI.enrollments[0].occurredAt).format('YYYY') > moment(newFamilyEvent.occurredAt).format('YYYY')) return;
 
           let newEvent = {
             event: generateUid(),

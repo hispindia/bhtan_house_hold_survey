@@ -23,13 +23,14 @@ const DateField = (
     minDateMessage,
     locale,
     variant,
+    disabled,
   },
-  props
+  ...props
 ) => {
   const { t } = useTranslation();
-  const { disabled , ...other } = props;
+  // const { disabled , ...other } = props;
   let fieldValue = value;
-  // console.log('fieldValue :>> ', fieldValue);
+  console.log('fieldValue :>> ', disabled, props);
 
   if (moment(value, "YYYY-MM-DD", true).isValid()) {
     fieldValue = moment(value, "YYYY-MM-DD");
@@ -60,8 +61,13 @@ const DateField = (
         {...(periodType && {
           views: [periodType],
         })}
-        variant={variant}
-        disabled={disabled|| false}
+        slotProps={{
+          textField: {
+            variant: "outlined"
+          }
+        }}
+      
+        disabled={disabled || false}
         value={value ? moment(fieldValue, switchFormatMoment(periodType)) : null}
         defaultValue=""
         onChange={(date) => {
