@@ -78,6 +78,11 @@ export const getOrgUnitSelectorData = async ({ orgUnits, filter }) => {
       return 0;
     });
     accumulator[`organisationUnits/${currentOu.id}`] = currentOu;
+    if (currentOu.children) {
+      currentOu.children.forEach((child) => {
+        accumulator[`organisationUnits/${child.id}`] = child;
+      });
+    }
     return accumulator;
   }, {});
 

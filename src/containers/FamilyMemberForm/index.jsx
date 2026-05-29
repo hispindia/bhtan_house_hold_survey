@@ -25,7 +25,9 @@ const FamilyMemberFormContainer = () => {
   const { event, initEvent, changeEvent, changeEventDataValue, setEventDirty } = useEvent(
     eventData ? JSON.parse(JSON.stringify(eventData)) : []
   );
+  const queryParams = new URLSearchParams(window.location.hash.split('?')[1]);
 
+  const uniqueTeiId = queryParams.get('tei');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,11 +35,16 @@ const FamilyMemberFormContainer = () => {
       initEvent(JSON.parse(JSON.stringify(eventData)));
     }
   }, [selectedYear, JSON.stringify(events)]);
-
+  console.log('tei in handleSave button', tei)
   const handleSaveButton = (reload = false) => {
     if (event._isDirty) {
-      // PUSH TEI event
-      dispatch(submitEventDataValues(event.dataValues, reload));
+      console.log('handleSave button event==', event)
+      const updatedDataValues = {
+        ...event.dataValues,
+        // AR4iOcpv7ly: uniqueTeiId,
+      };
+      // dispatch(submitEventDataValues(event.dataValues, reload));
+      dispatch(submitEventDataValues(updatedDataValues, reload));
       setEventDirty(false);
     }
   };
@@ -58,7 +65,7 @@ const FamilyMemberFormContainer = () => {
       blockEntry={false}
       events={events}
       externalComponents={<div></div>}
-      setDisableCompleteBtn={() => {}}
+      setDisableCompleteBtn={() => { }}
       maxDate={maxDate}
       minDate={minDate}
       handleSaveButton={handleSaveButton}

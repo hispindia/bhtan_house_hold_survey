@@ -90,6 +90,21 @@ const InputField = ({
           {...props}
         />
       );
+      case "ORGANISATION_UNIT":
+      return (
+        <Input
+          // addonBefore={addonBefore}
+          // addonAfter={addonAfter}
+          // value={value || ""}
+          // onClick={onClick}
+          // onChange={(event) => {
+          //   onChange(event.target.value, event);
+          // }}
+          // disabled={disabled}
+          // ref={inputRef}
+          {...props}
+        />
+      );
     case "LONG_TEXT":
       return (
         <TextArea

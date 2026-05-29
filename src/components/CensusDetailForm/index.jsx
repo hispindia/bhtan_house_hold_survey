@@ -4,7 +4,7 @@ import useHouseholdSurveyForm from "@/hooks/useHouseholdSurveyForm";
 import { Button, Col, Form, Row, Table, Tabs } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CFormControl from "../CustomAntForm/CFormControl";
 import InputField from "../InputField";
 import SavingIndicator from "./SavingIndicator";
@@ -12,6 +12,7 @@ import SavingIndicator from "./SavingIndicator";
 /* style */
 import { debounce } from "lodash";
 import "./index.css";
+import { submitAttributes } from "@/redux/actions/data";
 
 const CensusDetailForm = ({ onSubmit, onTabChange, values }) => {
   const dataElements = useSelector(
@@ -21,6 +22,8 @@ const CensusDetailForm = ({ onSubmit, onTabChange, values }) => {
   const submitEventLoading = useSelector(
     (state) => state.data.tei.submitEventLoading
   );
+  const attributes = useSelector((state) => state.data.tei.data.currentTei?.attributes);
+  const dispatch = useDispatch();
   const Dhis2FormItem = useMemo(
     () => withDhis2FormItem(dataElements)(CFormControl),
     [dataElements]
@@ -121,9 +124,9 @@ const CensusDetailForm = ({ onSubmit, onTabChange, values }) => {
       hidden,
       permanentHide,
       dependentFields = [],
-      setValuesFunc = () => {},
+      setValuesFunc = () => { },
       showFieldFunc = () => true,
-      childPropsFunc = () => {},
+      childPropsFunc = () => { },
     } = row;
     switch (type) {
       case "title": {
@@ -270,7 +273,22 @@ const CensusDetailForm = ({ onSubmit, onTabChange, values }) => {
             <Button
               type="primary"
               className="mt-2"
-              onClick={() => onSubmit(values)}
+              onClick={() => {
+                if (!values?.tjXaQPI9OcQ) {
+                  return alert("Please select Household Survey Date");
+                }
+                if (values?.tjXaQPI9OcQ) {
+                  if (attributes?.RhN4IqcEqz9 !== "true" && attributes?.RhN4IqcEqz9 !== true) {
+                    const updatedAttributes = {
+                      ...attributes,
+                      RhN4IqcEqz9: true,
+                    };
+                    dispatch(submitAttributes(updatedAttributes));
+                  }
+                }
+
+                onSubmit(values);
+              }}
               style={{
                 width: "10%",
                 backgroundColor: "#4CAF50",

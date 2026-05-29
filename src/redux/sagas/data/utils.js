@@ -130,6 +130,7 @@ const convertValueBack = (valueType, value) => {
     case "PHONE_NUMBER":
     case "EMAIL":
     case "LONG_TEXT":
+      case "ORGANISATION_UNIT":
     case "COORDINATE":
       if (/^0+$/.test(value) && value.length > 1) {
         value = "0";
@@ -170,7 +171,7 @@ export function* getLastEventsByYear(currentEvents, year) {
 export function* generateTEIDhis2Payload(payload, programMetadata) {
   console.log("**********:>>>", { payload, programMetadata });
   let { family, memberEvent, memberEvents, memberDetails, memberEnrollment } = payload;
-
+console.log('family=========',family)
   let { orgUnit } = family;
   let { event } = memberEvent;
   let { enrollment } = memberEnrollment;

@@ -5,6 +5,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import createRootReducer from "./reducers";
 import rootSaga from "./sagas";
+import logger from "redux-logger";
 
 export const history = createHashHistory();
 
@@ -17,7 +18,8 @@ export default function configureStore(preloadedState) {
     composeWithDevTools(
       applyMiddleware(
         routerMiddleware(history), // for dispatching history actions
-        sagaMiddleware
+        sagaMiddleware,
+        logger
       )
     )
   );

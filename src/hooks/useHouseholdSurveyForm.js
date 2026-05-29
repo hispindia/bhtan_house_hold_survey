@@ -68,7 +68,7 @@ const useHouseholdSurveyForm = (values) => {
       "WTFyAoDjI4X"
     ];
     if (event.length) {
-       //validation for Negative value not enter 
+      //validation for Negative value not enter 
       if (
         NO_NEGATIVE_DATAELEMENTS.includes(uuid) &&
         value !== null &&
@@ -265,6 +265,13 @@ const useHouseholdSurveyForm = (values) => {
           item.hidden = false;
         });
       }
+      if (uuid == "tjXaQPI9OcQ" && value) {
+        form.setFieldsValue({
+          ...values,
+          XzNHbMtGHIR: "true",
+        });
+      }
+
     }
     setSurveyList(_.cloneDeep(tableRenderData));
   }

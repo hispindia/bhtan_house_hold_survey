@@ -1,7 +1,7 @@
 import _ from "lodash";
 import "./InputField.styles.css";
 import propTypes from "./InputField.types.js";
-import { DateField, SelectField, TextField } from "./inputs/index";
+import { DateField, OrgUnitField, SelectField, TextField } from "./inputs/index";
 import { onKeyDown } from "@/utils";
 import { useTranslation } from "react-i18next";
 import { Input } from "antd";
@@ -151,6 +151,19 @@ const InputField = ({
             {...props}
           />
         );
+      
+      case "ORGANISATION_UNIT": {
+        return (
+          <OrgUnitField
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            disabled={disabled}
+            filter={props.filter}
+            {...props}
+          />
+        );
+      }
       case "NUMBER":
         return (
           <TextField

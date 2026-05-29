@@ -7,6 +7,8 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
 const getHalfYear = (selected6Month, year) => {
+   const queryParams = new URLSearchParams(window.location.hash.split('?')[1]);
+   const uniqueTeiId = queryParams.get('tei');
   const startMonth = selected6Month === 1 ? "01" : "07";
   const endMonth = selected6Month === 1 ? "06" : "12";
   return {
@@ -37,7 +39,14 @@ const CensusDetailFormContainer = () => {
     if (!currentEvent?.dataValues) {
       // clone an event
       let cloneEvent = currentEvents[currentEvents.length - 1];
+const dataElementId = "AR4iOcpv7ly";
 
+if (!eventDataValues.some(item => item.dataElement === dataElementId)) {
+  eventDataValues.push({
+    dataElement: dataElementId,
+    value: uniqueTeiId,
+  });
+}
       // init new event
       dispatch(
         submitEvent(

@@ -90,13 +90,33 @@ const RegisteredTeiList = ({
         return (
           <TableColumn
             metadata={null}
-            external={{ name: "updatedAt", type: "DATE" }}
+            external={{ name: "updatedAt", type: "DATE", }}
+            value={value}
+          />
+        );
+      },
+    };
+    const dataVerifed = {
+      title: t("DataVerified"),
+      dataIndex: "DataVerified",
+      key: "DataVerified",
+      sorter: true,
+      // filterDropdown: TableFilter(null, onFilter, {
+      //   name: "lastupdated",
+      //   type: "DATE",
+      // }),
+      render: (value) => {
+        return (
+          <TableColumn
+            metadata={null}
+            external={{ name: "DataVerified", type: "", }}
             value={value}
           />
         );
       },
     };
     columns.unshift(lastUpdatedObject);
+    // columns.push(dataVerifed);
     return columns;
   };
 
@@ -109,7 +129,8 @@ const RegisteredTeiList = ({
       };
 
       rowObject.teiId = tei.trackedEntity;
-
+      console.log('tei==', tei)
+      console.log('column===', columns)
       columns.forEach((column) => {
         const attribute = tei.attributes.find((attr) => {
           return attr.attribute === column.dataIndex;

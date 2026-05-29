@@ -60,6 +60,7 @@ export const convertValue = (valueType, value) => {
     case "PHONE_NUMBER":
     case "EMAIL":
     case "LONG_TEXT":
+      case "ORGANISATION_UNIT":
     case "COORDINATE":
       return value;
     case "DATE":

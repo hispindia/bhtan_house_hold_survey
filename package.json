@@ -1,7 +1,7 @@
 {
   "name": "vite-pwa-fi",
   "private": true,
-  "version": "0.0.20",
+  "version": "0.0.22",
   "scripts": {
     "dev": "vite",
     "prebuild": "node scripts/bump-version.js",
@@ -84,6 +84,7 @@
     "react-select": "^5.8.0",
     "react-text-mask": "^5.4.3",
     "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.3",
     "serve": "^14.2.1",
     "sharp": "^0.33.3",

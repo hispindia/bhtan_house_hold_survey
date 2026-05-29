@@ -354,5 +354,20 @@ export default [
     "uid": "WXDWkfS3GhG",
     "hidden": false,
     "styles": {}
-  }
+  },
+  {
+    "type": "data",
+    "name": "Data verified",
+    "uid": "XzNHbMtGHIR",
+    "hidden": false,
+    "styles": {}
+  },
+  // {
+  //   "type": "data",
+  //   "name": "HH UID",
+  //   "uid": "AR4iOcpv7ly",
+  //   "hidden": false,
+  //   "styles": {}
+  // }
+  
 ]

@@ -24,6 +24,7 @@ import "../../index.css";
 import {
   FAMILY_MEMBER_METADATA_CUSTOMUPDATE,
   FAMILY_MEMBER_VALUE,
+  JURISDICTION_VALUE,
   HAS_INITIAN_NOVALUE,
   HHM2_ALCOHAL_CONSUMPTION12_MONTH,
   HHM2_ALCOHOL_CONSUMPTION,
@@ -111,7 +112,7 @@ const FamilyMemberForm = ({
   }, [currentCascade]);
 
   useEffect(() => {
-    (async () => {})();
+    (async () => { })();
 
     setLoading(true);
 
@@ -212,9 +213,11 @@ const FamilyMemberForm = ({
       safeSetHidden(MEMBER_FORM_VALIDATIONS_SECTION.HISTORY_OF_C_DISEASE, null, true);
       safeSetHidden(MEMBER_FORM_VALIDATIONS_SECTION.HEIGHT_WEIGHT, null, true);
       safeSetHidden(MEMBER_FORM_VALIDATIONS_SECTION.WAISE_HIP_CIRCUMFERENCE, null, true);
+      safeSetHidden(MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS, null, true);
     }
 
     switch (code) {
+
       case FAMILY_MEMBER_METADATA_CUSTOMUPDATE.TRANSFER_TO:
         const trasnferToSex = data[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.SEX];
         const transferTo = data[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.TRANSFER_TO];
@@ -235,6 +238,7 @@ const FamilyMemberForm = ({
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.BLOOD_PRESSURE].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.MOTHER_CHILD_SECTION].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHASE_2].hidden = true;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].hidden = true;
         } else if (
           (trasnferToSex == TYPE_OF_ACTION.MALE && transferTo == FAMILY_MEMBER_VALUE.EX_COUNTRY) ||
           (trasnferToSex == TYPE_OF_ACTION.FEMALE && transferTo == FAMILY_MEMBER_VALUE.EX_COUNTRY)
@@ -246,13 +250,25 @@ const FamilyMemberForm = ({
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.BLOOD_PRESSURE].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.MOTHER_CHILD_SECTION].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHASE_2].hidden = true;
-        } else {
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].hidden = true;
+        } else if (transferTo == FAMILY_MEMBER_VALUE.IN_COUNTRY) {
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].hidden = false;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.DEMOGRAPHIC].hidden = true;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.WG_SORT].hidden = true;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHYSICAL_MEASUREMENT].hidden = true;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.BLOOD_PRESSURE].hidden = true;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.MOTHER_CHILD_SECTION].hidden = true;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHASE_2].hidden = true;
+        }
+
+        else {
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.DEMOGRAPHIC].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.WG_SORT].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHYSICAL_MEASUREMENT].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.BLOOD_PRESSURE].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.MOTHER_CHILD_SECTION].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHASE_2].hidden = false;
+
           editRowCallback(
             metadata,
             previousData,
@@ -274,6 +290,21 @@ const FamilyMemberForm = ({
           );
 
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.MORTALITY_INFORMATION].hidden = true;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].hidden = true;
+        }
+
+        break;
+      case FAMILY_MEMBER_METADATA_CUSTOMUPDATE.MIGRATED_HHM:
+        const migratedHH = data[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.MIGRATED_HHM];
+        if (migratedHH == JURISDICTION_VALUE.WITHIN_JURISDICTION) {
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].fields[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.NEW_HH_LOCATION_DETAILS].hidden = true;
+        } else if (migratedHH == JURISDICTION_VALUE.OUTSIDE_JURISDICTION) {
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].fields[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.MIGRATED_HHM_ORGUNIT].hidden = true;
+        } else {
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].fields[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.MIGRATED_HHM_ORGUNIT].hidden = false;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].fields[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.NEW_HH_LOCATION_DETAILS].hidden = false;
+
+
         }
 
         break;

@@ -281,6 +281,7 @@ const MEMBER_FORM_VALIDATIONS_SECTION = {
   HISTORY_OF_C_DISEASE: "History of cardiovascular disease",
   HEIGHT_WEIGHT: "Height and Weight",
   WAISE_HIP_CIRCUMFERENCE: "Waist and hip circumference",
+  TRANSFER_DETAILS: "Transfer Details",
 };
 
 const FAMILY_MEMBER_METADATA_CUSTOMUPDATE = {
@@ -291,6 +292,10 @@ const FAMILY_MEMBER_METADATA_CUSTOMUPDATE = {
   CONTECT_NUMBER: "HyGJqEzbxD4",
   MEMBERSHIP_STATUS: "cP1EanFicmA",
   TRANSFER_TO: "F6ed0skrJQw",
+   MIGRATED_HHM:"v6QiYBZG8mH",
+   NEW_HH_LOCATION_DETAILS:"l0eqP8ariWW",
+   MIGRATED_HHM_ORGUNIT:"oL8IDSVyPCZ",
+  
   HHM_1_ACTIVITY_LAST6MONTH: "zh9y01mPiMD",
   HHM_1_MORDEN_EDUCATION: "kcJX2YCBB3v",
   HHM_1_ATTENDING_TRADITIONAL_LERNING: "DPlIkV0XnI8",
@@ -358,8 +363,13 @@ const FAMILY_MEMBER_VALUE = {
   DEMISE: "Demise",
   TRANSFERRED: "Transferred",
   EX_COUNTRY: "Ex country",
+  IN_COUNTRY: "In country",
+ 
 };
-
+const JURISDICTION_VALUE = {
+  WITHIN_JURISDICTION: "Within your jurisdiction",
+  OUTSIDE_JURISDICTION: "Outside your jurisdiction",
+};
 const HAS_INITIAN_NOVALUE = ["uQg4s7Jd8WW", "mt37cOH28F9"];
 
 const MIN_MAX_TEXT = {
@@ -388,6 +398,7 @@ export {
   TYPE_OF_ACTION,
   FAMILY_MEMBER_METADATA_CUSTOMUPDATE,
   FAMILY_MEMBER_VALUE,
+  JURISDICTION_VALUE,
   MOBILE_NUM_REGEX,
   HAS_INITIAN_NOVALUE,
   defaultProgramTrackedEntityAttributeDisable,

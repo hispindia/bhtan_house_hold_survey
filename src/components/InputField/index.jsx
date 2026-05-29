@@ -195,6 +195,32 @@ const InputField = (props) => {
           />
         );
       }
+  //     case "ORGANISATION_UNIT":
+  // return (
+  //   <div>
+  //     <Input
+  //       type="text"
+  //       value={value?.label || ""}
+  //       placeholder="[Please select]"
+  //       readOnly
+  //       disabled={disabled}
+  //     />
+
+  //     <OrgUnitSelector
+  //       singleSelection={true}
+  //       selectedOrgUnit={value}
+  //       handleSelectOrgUnit={(selected) => {
+  //         const selectedId = selected?.selected?.[0];
+
+  //         onChange({
+  //           selected: selected.selected,
+  //           label: selectedId || "",
+  //         });
+  //       }}
+  //       filter={props.filter}
+  //     />
+  //   </div>
+  // );
 
       default:
         return <span>UNSUPPORTED VALUE TYPE</span>;
