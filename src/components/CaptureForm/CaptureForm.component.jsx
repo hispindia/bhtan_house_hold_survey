@@ -31,6 +31,7 @@ function CaptureForm(props) {
     allowFormEditable,
     handleSaveButton,
     dialogControl,
+    onCloseModal,
     ...other
   } = props;
   const { formData, prevData, setFormData, changeValue, initFromData, validation, onSubmit, clear } = useForm(data, {
@@ -91,6 +92,7 @@ function CaptureForm(props) {
               maxDate={props.maxDate}
               minDate={"1900-12-31"}
               data-element-id={f.code}
+              onCloseModal={onCloseModal}
             />
           </div>
         );

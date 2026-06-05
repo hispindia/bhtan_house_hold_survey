@@ -111,5 +111,32 @@ const push = (baseUrl, username, password, endPoint, payload, method) => {
   //   return err;
   // });
 };
+const put = (baseUrl, username, password, endPoint, payload) => {
+  return fetchWrapper(baseUrl + endPoint, {
+    method: "PUT",
+    credentials: "include",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: !username
+        ? ""
+        : "Basic " + btoa(`${username}:${password}`),
+    },
+  }).then((result) => {
+    if (
+      result.headers.get("content-type")?.includes("application/json")
+    ) {
+      return result.json();
+    }
 
-export { pull, push };
+    alert("Session expired. Please login again.");
+    window.location.href =
+      "../../../dhis-web-commons-security/logout.action";
+
+    throw new Error("Invalid content type, expected application/json");
+  });
+};
+
+export { pull, push, put };
+
+

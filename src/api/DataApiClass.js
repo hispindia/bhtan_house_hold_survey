@@ -1,4 +1,4 @@
-import { pull, push } from "./Fetch";
+import { pull, push, put } from "./Fetch";
 import BaseApiClass from "./BaseApiClass";
 import moment from "moment";
 
@@ -283,6 +283,7 @@ export default class DataApiClass extends BaseApiClass {
     );
   };
 
+
   getTrackedEntityInstances = (ou, filters, attributes, program) => {
     console.log("trackedEntities");
     return pull(
@@ -385,6 +386,17 @@ export default class DataApiClass extends BaseApiClass {
       "POST"
     );
   };
+  getTransfer = (ou, program, tei) => {
+    return put(
+      this.baseUrl,
+      this.username,
+      this.password,
+
+      `/api/tracker/ownership/transfer?trackedEntityInstance=${tei}&program=${program}&ou=${ou}`,
+      {}
+
+    )
+  }
 
   putTrackedEntityInstance = async (tei, program) => {
     const result = await push(

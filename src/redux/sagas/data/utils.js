@@ -246,11 +246,14 @@ console.log('family=========',family)
     programStage.dataElements.forEach((de) => {
       const value = convertValueBack(de.valueType, memberDetails[de.id]);
 
-      if (de.id == "ig2YSpQdP55") {
+      if (de.id == "ig2YSpQdP55" || de.id == 'AR4iOcpv7ly') {
         eventPayload.dataValues.push({
           dataElement: "ig2YSpQdP55",
           value: family.trackedEntity,
-        });
+        },
+        // {dataElement: "AR4iOcpv7ly",
+        // value: family.trackedEntity}
+      );
       }
       if (!value) {
         return;

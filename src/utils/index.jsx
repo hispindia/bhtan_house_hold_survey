@@ -127,9 +127,9 @@ export const generateDhis2Payload = (data, programMetadata) => {
     const attributeMetadata = programMetadata.trackedEntityAttributes.find((attr) => attr.id === attribute);
     return {
       attribute,
-      value: convertValueBack(attributeMetadata.valueType, currentTei.attributes[attribute]),
-      valueType: attributeMetadata.valueType,
-      displayName: attributeMetadata.displayName,
+      value: convertValueBack(attributeMetadata?.valueType, currentTei.attributes[attribute]),
+      valueType: attributeMetadata?.valueType,
+      displayName: attributeMetadata?.displayName,
       lastUpdated: currentTei.lastUpdated,
     };
   });

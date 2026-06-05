@@ -423,6 +423,7 @@ const CascadeTable = (props) => {
                     maxDate={moment(new Date()).format("YYYY-MM-DD")}
                     minDate={new Date(`1900-12-31`)}
                     handleSaveButton={handleSaveButton}
+                    onCloseModal={clearForm}
                   />
                 </Card.Body>
               </Card>

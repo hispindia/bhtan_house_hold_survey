@@ -4,6 +4,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import OrgUnitSelector from "../../OrgUnitSelector/OrgUnitSelector.component";
+import TeiListPopup from "../../TeiListPopup/TeiListPopup";
 
 const OrgUnitField = ({
   value,
@@ -11,6 +12,7 @@ const OrgUnitField = ({
   onBlur = null,
   disabled,
   filter,
+  onCloseModal,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -18,6 +20,7 @@ const OrgUnitField = ({
 
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [tempSelectedId, setTempSelectedId] = useState(value);
+  const [teiPopupOpen, setTeiPopupOpen] = useState(false);
 
   useEffect(() => {
     setTempSelectedId(value);
@@ -99,6 +102,7 @@ const OrgUnitField = ({
                     onBlur(tempSelectedId);
                   }
                   setPopoverOpen(false);
+                  setTeiPopupOpen(true);
                 }}
               >
                 {t("select") || "Select"}
@@ -127,6 +131,19 @@ const OrgUnitField = ({
           />
         </div>
       </Popover>
+      <TeiListPopup
+        visible={teiPopupOpen}
+        orgUnitId={value || tempSelectedId}
+        onClose={(submitSuccess = false) => {
+          setTeiPopupOpen(false);
+          if (submitSuccess) {
+            setPopoverOpen(false);
+            if (onCloseModal) {
+              onCloseModal();
+            }
+          }
+        }}
+      />
     </div>
   );
 };
