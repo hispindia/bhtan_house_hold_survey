@@ -251,8 +251,8 @@ console.log('family=========',family)
           dataElement: "ig2YSpQdP55",
           value: family.trackedEntity,
         },
-        // {dataElement: "AR4iOcpv7ly",
-        // value: family.trackedEntity}
+        {dataElement: "AR4iOcpv7ly",
+        value: family.trackedEntity}
       );
       }
       if (!value) {

@@ -363,6 +363,7 @@ function* putTeiToServer({ currentTei, currentEnrollment, attributes }) {
   const programMetadataId = yield select((state) => state.metadata.programMetadata.id);
 
   if (offlineStatus) {
+    debugger
     yield call(trackedEntityManager.setTrackedEntityInstance, {
       trackedEntity: currentTei,
     });

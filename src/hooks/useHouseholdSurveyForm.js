@@ -265,12 +265,12 @@ const useHouseholdSurveyForm = (values) => {
           item.hidden = false;
         });
       }
-      if (uuid == "tjXaQPI9OcQ" && value) {
-        form.setFieldsValue({
-          ...values,
-          XzNHbMtGHIR: "true",
-        });
-      }
+      // if (uuid == "tjXaQPI9OcQ" && value) {
+      //   form.setFieldsValue({
+      //     ...values,
+      //     XzNHbMtGHIR: "true",
+      //   });
+      // }
 
     }
     setSurveyList(_.cloneDeep(tableRenderData));

@@ -86,6 +86,7 @@ export const push = async (progressCallback) => {
   console.time("TrackedEntity::push");
 
   var start = performance.now();
+  debugger
   const trackedEntities = await findOffline();
 
   if (trackedEntities?.length > 0) {
@@ -142,10 +143,10 @@ export const pushAndMarkOnline = async (trackedEntities, progressCallback) => {
         entitiesToProcess.length
       } entities`
     );
-
+debugger
     for (let i = 0; i < partitions.length; i++) {
       const partition = partitions[i];
-
+console.log('partitioiin TOOOOOOOOOOOOOOOO',partition)
       try {
         const result = await dataApi.postTrackedEntityInstances({
           trackedEntities: partition,
@@ -200,7 +201,7 @@ const markOnline = async (trackedEntityIds) => {
 export const setTrackedEntityInstance = async ({ trackedEntity }) => {
   try {
     const tei = JSON.parse(JSON.stringify(trackedEntity));
-
+debugger
     const updatedTeis = await beforePersist({ trackedEntities: [tei] }, 0);
 
     await persist(updatedTeis);

@@ -274,17 +274,44 @@ const CensusDetailForm = ({ onSubmit, onTabChange, values }) => {
               type="primary"
               className="mt-2"
               onClick={() => {
+                console.log("values before submit", values);
                 if (!values?.tjXaQPI9OcQ) {
                   return alert("Please select Household Survey Date");
                 }
-                if (values?.tjXaQPI9OcQ) {
-                  if (attributes?.RhN4IqcEqz9 !== "true" && attributes?.RhN4IqcEqz9 !== true) {
-                    const updatedAttributes = {
-                      ...attributes,
-                      RhN4IqcEqz9: true,
-                    };
-                    dispatch(submitAttributes(updatedAttributes));
-                  }
+                // if (values?.tjXaQPI9OcQ) {
+                //   if (attributes?.RhN4IqcEqz9 !== "true" && attributes?.RhN4IqcEqz9 !== true) {
+                //     const updatedAttributes = {
+                //       ...attributes,
+                //       RhN4IqcEqz9: true,
+                //     };
+                //     dispatch(submitAttributes(updatedAttributes));
+                //   }
+                // }
+                debugger
+                if (
+                  values?.XzNHbMtGHIR === undefined ||
+                  values?.XzNHbMtGHIR === null ||
+                  values?.XzNHbMtGHIR === ""
+                ) {
+                  return alert("Please select a value for Data verified");
+                }
+
+                if (values?.XzNHbMtGHIR === "true") {
+                  const updatedAttributes = {
+                    ...attributes,
+                    RhN4IqcEqz9: true,
+                  };
+
+                  dispatch(submitAttributes(updatedAttributes));
+                }
+
+                if (values?.XzNHbMtGHIR === "false") {
+                  const updatedAttributes = { ...attributes };
+
+                  // Remove the attribute completely
+                  delete updatedAttributes.RhN4IqcEqz9;
+
+                  dispatch(submitAttributes(updatedAttributes));
                 }
 
                 onSubmit(values);

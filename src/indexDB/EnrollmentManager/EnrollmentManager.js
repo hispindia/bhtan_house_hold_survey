@@ -15,11 +15,11 @@ export const pull = async ({ handleDispatchCurrentOfflineLoading, offlineSelecte
       const org = offlineSelectedOrgUnits[j];
       for (let i = 0; i < programs.length; i++) {
         const program = programs[i];
-        let totalPages = 0;
+        let totalPaging = 0;
 
         try {
           for (let page = 1; ; page++) {
-            if (totalPages && page > totalPages) {
+            if (totalPaging && page > totalPaging) {
               break;
             }
 
@@ -27,7 +27,7 @@ export const pull = async ({ handleDispatchCurrentOfflineLoading, offlineSelecte
               "/api/tracker/enrollments",
               {
                 paging: true,
-                totalPages: true,
+                totalPaging: true,
                 pageSize: 1000,
                 page,
               },

@@ -282,6 +282,7 @@ const MEMBER_FORM_VALIDATIONS_SECTION = {
   HEIGHT_WEIGHT: "Height and Weight",
   WAISE_HIP_CIRCUMFERENCE: "Waist and hip circumference",
   TRANSFER_DETAILS: "Transfer Details",
+  VERIFICATION_NCD: "Verification NCD"
 };
 
 const FAMILY_MEMBER_METADATA_CUSTOMUPDATE = {

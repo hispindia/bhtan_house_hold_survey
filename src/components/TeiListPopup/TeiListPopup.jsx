@@ -56,19 +56,32 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
     if (!orgUnitId || !programId) return;
     setLoading(true);
     try {
-      const response = await dataApi.getTrackedEntityInstanceListByQuery(
-        orgUnitId,
-        programId,
-        1000,
-        1,
-        // currentPageSize,
-        // currentPage,
-        "",
-        "created:desc"
-      );
+      let response;
+      if (offlineStatus) {
+        response = await trackedEntityManager.find({
+          orgUnit: orgUnitId,
+          program: programId,
+          paging: false,
+          ouMode: "SELECTED"
+        });
+        console.log('response==',response)
+      } else {
+        response = await dataApi.getTrackedEntityInstanceListByQuery(
+          orgUnitId,
+          programId,
+          1000,
+          1,
+          // currentPageSize,
+          // currentPage,
+          "",
+          "created:desc"
+        );
+      }
       setTeisData(response);
-      if (response && response.total !== "undefined") {
+      if (response && response.total !== undefined && response.total !== "undefined") {
         setTotal(response.total);
+      } else if (response && response.instances) {
+        setTotal(response.instances.length);
       }
     } catch (err) {
       console.error("Error fetching TEIs for popup:", err);
@@ -208,83 +221,129 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
             console.log("selectedAttribute:", selectedAttribute);
 
             try {
-              if (selectedOrgunitTei === selectedOrgUnit?.id) {
-                console.log("Condition TRUE");
+              if (offlineStatus) {
+                if (selectedOrgunitTei === selectedOrgUnit?.id) {
+                  console.log("Offline Condition TRUE");
 
-                if (selectedAttribute && targetTeiId) {
-                  const teiPayload = {
-                    trackedEntity: selectedMember?.id,
-                    orgUnit: selectedOrgunitTei,
-                    trackedEntityType: "Y2TBztNgJpH",
-                    attributes: [
-                      {
-                        attribute: "hDE1WNqTTwF",
-                        value: selectedAttribute.value,
-                      },
-                      {
-                        attribute: "gv9xX5w4kKt",
-                        value: targetTeiId,
-                      },
-                    ],
-                  };
+                  if (selectedAttribute && targetTeiId) {
+                    const existingTei = await trackedEntityManager.getTrackedEntityInstanceById({
+                      trackedEntity: selectedMember?.id,
+                      program: programId,
+                    });
 
-                  await dataApi.postTrackedEntityInstances({
-                    trackedEntities: [teiPayload],
-                  });
+                    let updatedAttributes = existingTei?.attributes ? [...existingTei.attributes] : [];
 
-                  console.log("API Update Success");
+                    const updateAttribute = (attrId, attrVal) => {
+                      const idx = updatedAttributes.findIndex((attr) => attr.attribute === attrId);
+                      if (idx > -1) {
+                        updatedAttributes[idx] = { ...updatedAttributes[idx], value: attrVal };
+                      } else {
+                        updatedAttributes.push({ attribute: attrId, value: attrVal });
+                      }
+                    };
+
+                    updateAttribute("hDE1WNqTTwF", selectedAttribute.value);
+                    updateAttribute("gv9xX5w4kKt", targetTeiId);
+
+                    const teiPayload = {
+                      ...existingTei,
+                      trackedEntity: selectedMember?.id,
+                      orgUnit: selectedOrgunitTei,
+                      trackedEntityType: "Y2TBztNgJpH",
+                      attributes: updatedAttributes,
+                      enrollments: existingTei?.enrollments || [],
+                    };
+
+                    await trackedEntityManager.setTrackedEntityInstance({
+                      trackedEntity: teiPayload,
+                    });
+
+                    console.log("Offline Update Success");
+                  }
+                } else {
+                  console.log("Offline Condition FALSE - Alerting");
+                  alert(t("cannotTransferOffline") || "Cannot transfer TEI while offline.");
+                  return;
                 }
-              
+              }
+               else {
+                if (selectedOrgunitTei === selectedOrgUnit?.id) {
+                  console.log("Condition TRUE");
 
-                const selectedTeiId =
-                  selectedTei?.trackedEntity || selectedTei?.teiId;
+                  if (selectedAttribute && targetTeiId) {
+                    const teiPayload = {
+                      trackedEntity: selectedMember?.id,
+                      orgUnit: selectedOrgunitTei,
+                      trackedEntityType: "Y2TBztNgJpH",
+                      attributes: [
+                        {
+                          attribute: "hDE1WNqTTwF",
+                          value: selectedAttribute.value,
+                        },
+                        {
+                          attribute: "gv9xX5w4kKt",
+                          value: targetTeiId,
+                        },
+                      ],
+                    };
 
-                // if (selectedTeiId) {
-                //   const updatedDataValues = {
-                //     ig2YSpQdP55: selectedTeiId,
-                //   };
-                //
-                //   dispatch(submitEventDataValues(updatedDataValues, false));
-                // }
-              } else {
-                console.log("Condition FALSE");
+                    await dataApi.postTrackedEntityInstances({
+                      trackedEntities: [teiPayload],
+                    });
 
-                const programIID = "xvzrp56zKvI";
+                    console.log("API Update Success");
+                  }
 
-                if (selectedMember?.id && selectedOrgUnit?.id && programIID) {
-                  await transferTei(
-                    selectedMember?.id,
-                    selectedOrgUnit.id,
-                    programIID
-                  );
+                  const selectedTeiId =
+                    selectedTei?.trackedEntity || selectedTei?.teiId;
 
-                  console.log("TEI Transfer Success");
+                  // if (selectedTeiId) {
+                  //   const updatedDataValues = {
+                  //     ig2YSpQdP55: selectedTeiId,
+                  //   };
+                  //
+                  //   dispatch(submitEventDataValues(updatedDataValues, false));
+                  // }
+                } 
+                else {
+                  console.log("Condition FALSE");
+
+                  const programIID = "xvzrp56zKvI";
+
+                  if (selectedMember?.id && selectedOrgUnit?.id && programIID) {
+                    await transferTei(
+                      selectedMember?.id,
+                      selectedOrgUnit.id,
+                      programIID
+                    );
+
+                    console.log("TEI Transfer Success");
+                  }
+
+                  if (selectedAttribute && targetTeiId) {
+                    const teiPayload = {
+                      trackedEntity: selectedMember?.id,
+                      orgUnit: selectedOrgUnit?.id, // target org unit after transfer
+                      trackedEntityType: "Y2TBztNgJpH",
+                      attributes: [
+                        {
+                          attribute: "hDE1WNqTTwF",
+                          value: selectedAttribute.value,
+                        },
+                        {
+                          attribute: "gv9xX5w4kKt",
+                          value: targetTeiId,
+                        },
+                      ],
+                    };
+
+                    await dataApi.postTrackedEntityInstances({
+                      trackedEntities: [teiPayload],
+                    });
+
+                    console.log("Attribute Update Success After Transfer");
+                  }
                 }
-
-                if (selectedAttribute && targetTeiId) {
-                  const teiPayload = {
-                    trackedEntity: selectedMember?.id,
-                    orgUnit: selectedOrgUnit?.id, // target org unit after transfer
-                    trackedEntityType: "Y2TBztNgJpH",
-                    attributes: [
-                      {
-                        attribute: "hDE1WNqTTwF",
-                        value: selectedAttribute.value,
-                      },
-                      {
-                        attribute: "gv9xX5w4kKt",
-                        value: targetTeiId,
-                      },
-                    ],
-                  };
-
-                  await dataApi.postTrackedEntityInstances({
-                    trackedEntities: [teiPayload],
-                  });
-
-                  console.log("Attribute Update Success After Transfer");
-                }
-               
               }
             } catch (error) {
               console.error("Submit operation failed:", error);
@@ -305,7 +364,7 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
     >
       <style>{`
         .selected-row-highlight {
-          background-color: #e6f7ff !important;
+          background-color: #05a0e8 !important;
         }
         .ant-table-row {
           cursor: pointer;

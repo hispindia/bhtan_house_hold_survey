@@ -52,7 +52,7 @@ function* getTeis(newPayload = {}) {
           .filter(Boolean),
         ouMode: "DESCENDANTS",
       });
-
+debugger
       console.log("getTrackedEntityInstanceListByQuery", { instanceList });
     } else {
       instanceList = yield call(
