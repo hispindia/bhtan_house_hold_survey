@@ -214,6 +214,9 @@ const FamilyMemberForm = ({
       safeSetHidden(MEMBER_FORM_VALIDATIONS_SECTION.HEIGHT_WEIGHT, null, true);
       safeSetHidden(MEMBER_FORM_VALIDATIONS_SECTION.WAISE_HIP_CIRCUMFERENCE, null, true);
       safeSetHidden(MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS, null, true);
+      safeSetHidden(MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION_NCD, null, true);
+      safeSetHidden(MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION, null, true);
+      
     }
 
     switch (code) {
@@ -239,6 +242,7 @@ const FamilyMemberForm = ({
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.MOTHER_CHILD_SECTION].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHASE_2].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].hidden = true;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION].hidden = false;
         } else if (
           (trasnferToSex == TYPE_OF_ACTION.MALE && transferTo == FAMILY_MEMBER_VALUE.EX_COUNTRY) ||
           (trasnferToSex == TYPE_OF_ACTION.FEMALE && transferTo == FAMILY_MEMBER_VALUE.EX_COUNTRY)
@@ -251,6 +255,7 @@ const FamilyMemberForm = ({
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.MOTHER_CHILD_SECTION].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHASE_2].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].hidden = true;
+           metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION].hidden = false;
         } else if (transferTo == FAMILY_MEMBER_VALUE.IN_COUNTRY) {
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.DEMOGRAPHIC].hidden = true;
@@ -259,6 +264,7 @@ const FamilyMemberForm = ({
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.BLOOD_PRESSURE].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.MOTHER_CHILD_SECTION].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHASE_2].hidden = true;
+           metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION].hidden = false;
         }
 
         else {
@@ -268,6 +274,7 @@ const FamilyMemberForm = ({
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.BLOOD_PRESSURE].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.MOTHER_CHILD_SECTION].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHASE_2].hidden = false;
+           metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION].hidden = false;
 
           editRowCallback(
             metadata,
@@ -489,6 +496,9 @@ const FamilyMemberForm = ({
             metadata[MEMBER_FORM_VALIDATIONS_SECTION.HISTORY_OF_C_DISEASE].hidden = true;
             metadata[MEMBER_FORM_VALIDATIONS_SECTION.HEIGHT_WEIGHT].hidden = true;
             metadata[MEMBER_FORM_VALIDATIONS_SECTION.WAISE_HIP_CIRCUMFERENCE].hidden = true;
+            metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].hidden = true;
+            metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION_NCD].hidden = true;
+              metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION].hidden = false;
 
             // check other condition
             let ncdValue = data[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.HHM_2_NCDMODULE_INDIVIDUAL];
@@ -540,6 +550,7 @@ const FamilyMemberForm = ({
             //for else condition
             // MORTALITY_INFORMATION.forEach(hhm2 => metadata[hhm2].hidden = false)
             metadata[MEMBER_FORM_VALIDATIONS_SECTION.MORTALITY_INFORMATION].hidden = false;
+             metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION].hidden = false;
 
             break;
 
@@ -561,6 +572,8 @@ const FamilyMemberForm = ({
             metadata[MEMBER_FORM_VALIDATIONS_SECTION.HEIGHT_WEIGHT].hidden = true;
             metadata[MEMBER_FORM_VALIDATIONS_SECTION.WAISE_HIP_CIRCUMFERENCE].hidden = true;
             metadata[MEMBER_FORM_VALIDATIONS_SECTION.MORTALITY_INFORMATION].hidden = true;
+            metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION].hidden = true;
+            metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION_NCD].hidden = true;
 
             break;
 
@@ -592,6 +605,8 @@ const FamilyMemberForm = ({
             metadata[MEMBER_FORM_VALIDATIONS_SECTION.HISTORY_OF_C_DISEASE].hidden = true;
             metadata[MEMBER_FORM_VALIDATIONS_SECTION.HEIGHT_WEIGHT].hidden = true;
             metadata[MEMBER_FORM_VALIDATIONS_SECTION.WAISE_HIP_CIRCUMFERENCE].hidden = true;
+          
+            metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION_NCD].hidden = true;
 
             // check other condition
             let ncdValueNew = data[FAMILY_MEMBER_METADATA_CUSTOMUPDATE.HHM_2_NCDMODULE_INDIVIDUAL];
@@ -1203,7 +1218,7 @@ const FamilyMemberForm = ({
         break;
 
       case FAMILY_MEMBER_METADATA_CUSTOMUPDATE.HHM_2_NCDMODULE_INDIVIDUAL:
-        if (value == TYPE_OF_ACTION.NO) {
+        if (value == TYPE_OF_ACTION.NO || value == null || value == undefined) {
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.TOBBACO_USE].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.ARECA_NUT].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.ACLOHAL_CONSUMPTION].hidden = true;
@@ -1217,6 +1232,8 @@ const FamilyMemberForm = ({
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.HISTORY_OF_C_DISEASE].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.HEIGHT_WEIGHT].hidden = true;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.WAISE_HIP_CIRCUMFERENCE].hidden = true;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION_NCD].hidden = true;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.TRANSFER_DETAILS].hidden = true;
         } else {
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.TOBBACO_USE].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.ARECA_NUT].hidden = false;
@@ -1231,6 +1248,8 @@ const FamilyMemberForm = ({
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.HISTORY_OF_C_DISEASE].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.HEIGHT_WEIGHT].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.WAISE_HIP_CIRCUMFERENCE].hidden = false;
+
+metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION_NCD].hidden = false;
         }
         break;
 
