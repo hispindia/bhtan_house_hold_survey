@@ -20,7 +20,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
   const [selectedTei, setSelectedTei] = useState(null);
 
   const programMetadata = useSelector((state) => state.metadata?.programMetadata);
-  console.log('programMeta Data===', programMetadata)
   const trackedEntityAttributes = programMetadata?.trackedEntityAttributes || [];
   const programId = programMetadata?.id;
   const orgUnits = useSelector((state) => state.metadata?.orgUnits || []);
@@ -29,7 +28,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
     (state) => state.data?.tei?.selectedMember
 
   );
-  console.log('whey undefined attri', selectedMember)
   const currentTei = useSelector((state) => state.data?.tei?.data?.currentTei);
   const currentCascade = useSelector((state) => state.data?.tei?.data?.currentCascade);
   const { year } = useSelector((state) => state.data?.tei?.selectedYear || {});
@@ -50,7 +48,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
 
   const selectedOrgUnit = findOrgUnit(orgUnits, orgUnitId);
   const orgUnitLabel = selectedOrgUnit ? selectedOrgUnit.displayName : orgUnitId;
-  console.log("selectedOrgUnit", selectedOrgUnit?.id);
 
   const fetchTeis = async (currentPage, currentPageSize) => {
     if (!orgUnitId || !programId) return;
@@ -64,7 +61,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
           paging: false,
           ouMode: "SELECTED"
         });
-        console.log('response==',response)
       } else {
         response = await dataApi.getTrackedEntityInstanceListByQuery(
           orgUnitId,
@@ -92,9 +88,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
   const transferTei = async (tei, ou, program) => {
     try {
       const response = await dataApi.getTransfer(ou, program, tei);
-
-      console.log("Transfer response:", response);
-
       // Optional: refresh list after transfer
       fetchTeis();
     } catch (err) {
@@ -205,10 +198,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
           type="primary"
           disabled={!selectedTei}
           onClick={async () => {
-            console.log("selectedOrgunitTei:", selectedOrgunitTei);
-            console.log("selectedOrgUnit:", selectedOrgUnit);
-            console.log("selectedTei:", selectedTei);
-
             const selectedAttribute = selectedTei?.attributes?.find(
               (attr) => attr.attribute === "b4UUhQPwlRH"
             );
@@ -217,9 +206,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
               selectedTei?.trackedEntity ||
               selectedTei?.teiId ||
               selectedTei?.trackedEntityInstance;
-
-            console.log("selectedAttribute:", selectedAttribute);
-
             try {
               if (offlineStatus) {
                 if (selectedOrgunitTei === selectedOrgUnit?.id) {
@@ -386,8 +372,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
               return {
                 onClick: (event) => {
                   const originalTei = teisData?.instances?.find(inst => inst.trackedEntity === record.teiId);
-                  console.log("tei==", record);
-                  console.log('originalTei=====', originalTei)
                   setSelectedTei(originalTei || record);
                 }
               };

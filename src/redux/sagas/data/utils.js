@@ -171,7 +171,6 @@ export function* getLastEventsByYear(currentEvents, year) {
 export function* generateTEIDhis2Payload(payload, programMetadata) {
   console.log("**********:>>>", { payload, programMetadata });
   let { family, memberEvent, memberEvents, memberDetails, memberEnrollment } = payload;
-console.log('family=========',family)
   let { orgUnit } = family;
   let { event } = memberEvent;
   let { enrollment } = memberEnrollment;

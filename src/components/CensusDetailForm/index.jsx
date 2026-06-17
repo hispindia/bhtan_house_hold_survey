@@ -286,8 +286,7 @@ const CensusDetailForm = ({ onSubmit, onTabChange, values }) => {
                 //     };
                 //     dispatch(submitAttributes(updatedAttributes));
                 //   }
-                // }
-                debugger
+                // }  
                 if (
                   values?.XzNHbMtGHIR === undefined ||
                   values?.XzNHbMtGHIR === null ||
