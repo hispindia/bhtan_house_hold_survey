@@ -298,7 +298,7 @@ const CensusDetailForm = ({ onSubmit, onTabChange, values }) => {
                 if (values?.XzNHbMtGHIR === "true") {
                   const updatedAttributes = {
                     ...attributes,
-                    RhN4IqcEqz9: true,
+                    zDaMIJqsk1k: true,
                   };
 
                   dispatch(submitAttributes(updatedAttributes));
@@ -308,7 +308,7 @@ const CensusDetailForm = ({ onSubmit, onTabChange, values }) => {
                   const updatedAttributes = { ...attributes };
 
                   // Remove the attribute completely
-                  delete updatedAttributes.RhN4IqcEqz9;
+                  delete updatedAttributes.zDaMIJqsk1k;
 
                   dispatch(submitAttributes(updatedAttributes));
                 }

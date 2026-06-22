@@ -274,7 +274,7 @@ const FamilyMemberForm = ({
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.BLOOD_PRESSURE].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.MOTHER_CHILD_SECTION].hidden = false;
           metadata[MEMBER_FORM_VALIDATIONS_SECTION.PHASE_2].hidden = false;
-           metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION].hidden = false;
+          metadata[MEMBER_FORM_VALIDATIONS_SECTION.VERIFICATION].hidden = false;
 
           editRowCallback(
             metadata,
