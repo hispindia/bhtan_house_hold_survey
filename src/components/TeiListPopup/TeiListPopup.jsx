@@ -18,7 +18,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
   const [selectedTei, setSelectedTei] = useState(null);
-
   const programMetadata = useSelector((state) => state.metadata?.programMetadata);
   const trackedEntityAttributes = programMetadata?.trackedEntityAttributes || [];
   const programId = programMetadata?.id;
@@ -48,7 +47,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
 
   const selectedOrgUnit = findOrgUnit(orgUnits, orgUnitId);
   const orgUnitLabel = selectedOrgUnit ? selectedOrgUnit.displayName : orgUnitId;
-
   const fetchTeis = async (currentPage, currentPageSize) => {
     if (!orgUnitId || !programId) return;
     setLoading(true);
@@ -169,7 +167,7 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingRight: "24px" }}>
           <div>
             <span style={{ fontSize: "18px", fontWeight: "600", color: "#1890ff" }}>
-              {t("trackedEntityInstances") || "Tracked Entity Instances"}
+              {t("List of Households") || "Tracked Entity Instances"}
             </span>
             <span style={{ fontSize: "14px", fontWeight: "normal", color: "#8c8c8c", marginLeft: "12px" }}>
               ({orgUnitLabel})
@@ -218,7 +216,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
                     });
 
                     let updatedAttributes = existingTei?.attributes ? [...existingTei.attributes] : [];
-
                     const updateAttribute = (attrId, attrVal) => {
                       const idx = updatedAttributes.findIndex((attr) => attr.attribute === attrId);
                       if (idx > -1) {
@@ -230,7 +227,6 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
 
                     updateAttribute("hDE1WNqTTwF", selectedAttribute.value);
                     updateAttribute("gv9xX5w4kKt", targetTeiId);
-
                     const teiPayload = {
                       ...existingTei,
                       trackedEntity: selectedMember?.id,
@@ -293,9 +289,7 @@ const TeiListPopup = ({ visible, orgUnitId, onClose, }) => {
                 } 
                 else {
                   console.log("Condition FALSE");
-
                   const programIID = "xvzrp56zKvI";
-
                   if (selectedMember?.id && selectedOrgUnit?.id && programIID) {
                     await transferTei(
                       selectedMember?.id,

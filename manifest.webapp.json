@@ -1,11 +1,11 @@
 {
-  "name": "Household Health Surveillance",
-  "short_name": "Household Health Surveillance",
-  "description": "Household Health Surveillance",
+  "name": "Household Health Surveillance 1",
+  "short_name": "Household Health Surveillance 1",
+  "description": "Household Health Surveillance 1",
   "background_color": "#5a0fc8",
   "theme_color": "#5a0fc8",
   "display": "standalone",
-  "version": "0.0.20",
+  "version": "0.0.24",
   "icons": [
     {
       "src": "./assets/icon-maskable.png",
@@ -51,5 +51,5 @@
   "developer": {
     "name": "HISPVN Team"
   },
-  "key": "Household Health Surveillance"
+  "key": "Household Health Surveillance 1"
 }
